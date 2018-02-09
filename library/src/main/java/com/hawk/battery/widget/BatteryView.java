@@ -15,34 +15,40 @@ import android.view.View;
 
 public class BatteryView extends View {
     /**
+     * 默认参数
+     */
+    private static final float defaultRatio = 7f/13;                  // 电池默认高宽比例
+    private static final float defaultHightRatio = 2f;               // 电池与电池盖默认高比例
+    private static final float defaultWidthRatio = 9f;               // 电池与电池盖默认宽比例
+    private static final float defaultHeight = 35f;                  // 视图的默认高度
+    private static final float defaultWidth = 65f;                   // 视图的默认宽度
+    private static final float defaultStroke = 3f;                   // 画笔的默认厚度
+    /**
      * 画笔信息
      */
     private Paint mBatteryPaint;
     private Paint mPowerPaint;
-    private float mBatteryStroke = 2f;
     /**
-     * 屏幕高宽
+     * 视图高宽
      */
     private int measureWidth;
     private int measureHeigth;
     /**
-     *
      * 电池参数
      */
-    private float mBatteryHeight = 30f; // 电池的高度
-    private float mBatteryWidth = 60f; // 电池的宽度
-    private float mCapHeight = 15f;
-    private float mCapWidth = 5f;
+    private float mBatteryHeight = defaultHeight;                       // 电池的高度
+    private float mBatteryWidth = defaultWidth * defaultWidthRatio / (defaultWidthRatio + 1); // 电池的宽度
+    private float mCapHeight = defaultHeight / defaultHightRatio;    // 电池盖的高度
+    private float mCapWidth = defaultWidth / (defaultWidthRatio + 1);       // 电池盖的宽度
+    private float mBatteryStroke = defaultStroke;         // 画笔厚度
     /**
-     *
      * 电池电量
      */
     private float mPowerPadding = 1;
-    private float mPowerHeight = 0;             // 电池身体的高度
-    private float mPowerWidth = 0;              // 电池身体的总宽度
-    private float mPower = 80f;
+    private float mPowerHeight = 0;             // 电量的总高度
+    private float mPowerWidth = 0;              // 电量的总宽度
+    private float mPower = 80f;                  //当前电量
     /**
-     *
      * 矩形
      */
     private RectF mBatteryRect = new RectF(0, 0, 0, 0);
@@ -65,11 +71,6 @@ public class BatteryView extends View {
     }
 
     private void initView() {
-       initPaint();
-       intDrawRectF();
-    }
-
-    private void initPaint() {
         /**
          * 设置电池画笔
          */
@@ -89,6 +90,11 @@ public class BatteryView extends View {
     }
 
     private void intDrawRectF() {
+        mBatteryHeight = measureHeigth;                       // 电池的高度
+        mBatteryWidth = measureWidth * defaultWidthRatio / (defaultWidthRatio + 1); // 电池的宽度
+        mCapHeight = measureHeigth / defaultHightRatio;    // 电池盖的高度
+        mCapWidth = measureWidth / (defaultWidthRatio + 1);       // 电池盖的宽度
+
         mPowerHeight = mBatteryHeight - mBatteryStroke - mPowerPadding * 2; // 电池身体的高度
         mPowerWidth = mBatteryWidth - mBatteryStroke - mPowerPadding * 2;// 电池身体的总宽度
         /**
@@ -140,6 +146,18 @@ public class BatteryView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(measure(widthMeasureSpec, true), measure(heightMeasureSpec, false));
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+
+        if (width * defaultRatio > height) {
+            measureWidth = (int) (height / defaultRatio);
+            measureHeigth = height;
+        }
+        else {
+            measureWidth = width;
+            measureHeigth = (int) (width * defaultRatio);
+        }
+        intDrawRectF();
     }
 
     private int measure(int measureSpec, boolean isWidth) {
@@ -154,7 +172,7 @@ public class BatteryView extends View {
             result += padding;
             if (mode == MeasureSpec.AT_MOST) {
                 if (isWidth) {
-                    result = Math.max(result, size);
+                    result = Math.min(result, size);
                 } else {
                     result = Math.min(result, size);
                 }
