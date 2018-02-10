@@ -1,15 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        
-
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -24,4 +23,26 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    userName = 'BlackYHawk'
+    developer = [id   : 'BlackYHawk',
+                 name : 'BlackYHawk',
+                 email: 'saruka072@gmail.com']
+    license = [id  : 'MIT',
+               name: 'The MIT License (MIT)',
+               url : 'http://opensource.org/licenses/MIT']
+    groupName = 'io.github.blackyhawk'
+    artifactName = 'Battery'
+    artifactDescription = 'Battery UI.'
+    artifactLabels = ['Battery', 'UI']
+    releaseVersionCode = 1
+    releaseVersionName = '1.0.0'
+
+    androidCompileSdkVersion = 26
+    androidBuildToolsVersion = '26.0.2'
+    androidSupportSdkVersion = '26.0.2'
+    minSdkVersion = 16
+    targetSdkVersion = 26
 }
