@@ -31,7 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':library')
+    implementation project(':battery')
     implementation "com.android.support:appcompat-v7:$rootProject.ext.androidSupportSdkVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
