@@ -6,6 +6,7 @@
         <attr name="batteryRadius" format="float"/>
         <attr name="batteryColor" format="color"/>
         <attr name="powerColor" format="color"/>
+        <attr name="warnColor" format="color"/>
     </declare-styleable>
 
 </resources>

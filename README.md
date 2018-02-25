@@ -9,7 +9,7 @@ The library provide a Battery UI
 
 The Battery library may be found on jcenter repository. Add it to your project by adding the following dependency:
 ```Groovy
-compile 'io.github.blackyhawk:battery:1.0.0'
+compile 'io.github.blackyhawk:battery:1.0.1'
 ```
 
 ## License

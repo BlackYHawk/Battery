@@ -21,6 +21,7 @@ public class BatteryView extends View {
     /**
      * 默认参数
      */
+    private static final float defaultWarnValue = 15.1f;                // 低电量的默认值
     private static final float defaultRatio = 7f/13;                  // 视图默认高宽比例
     private static final float defaultWidth = 40f;                   // 视图的默认宽度
     private static final float defaultHightRatio = 2f;               // 电池与电池盖默认高比例
@@ -30,6 +31,7 @@ public class BatteryView extends View {
     private static final float defaultPowerStroke = 1f;             // 电量画笔的默认厚度
     private static final int defaultBatteryColor = Color.LTGRAY;     // 电池画笔的默认颜色
     private static final int defaultPowerColor = Color.RED;          // 电量画笔的默认颜色
+    private static final int defaultWarnColor = Color.RED;          // 低电量画笔的默认颜色
     /**
      * 画笔信息
      */
@@ -53,6 +55,7 @@ public class BatteryView extends View {
     private float mPowerStroke = defaultPowerStroke;             // 电量画笔厚度
     private int mBatteryColor = 0;                          // 电池画笔颜色
     private int mPowerColor = 0;                              // 电量画笔颜色
+    private int mWarnColor = 0;                              // 低电量画笔颜色
     /**
      * 电池电量
      */
@@ -90,6 +93,7 @@ public class BatteryView extends View {
             batteryArch = typedArray.getFloat(R.styleable.BatteryView_batteryRadius, defaultArch);
             mBatteryColor = typedArray.getColor(R.styleable.BatteryView_batteryColor, defaultBatteryColor);
             mPowerColor = typedArray.getColor(R.styleable.BatteryView_powerColor, defaultPowerColor);
+            mWarnColor = typedArray.getColor(R.styleable.BatteryView_warnColor, defaultWarnColor);
             typedArray.recycle();
         }
         /**
@@ -206,6 +210,12 @@ public class BatteryView extends View {
         mPower = power;
         if (mPower < 0) {
             mPower = 0;
+        }
+        if (mPower < defaultWarnValue) {
+            mPowerPaint.setColor(mWarnColor);
+        }
+        else {
+            mPowerPaint.setColor(mPowerColor);
         }
         mPowerRect.right = getPaddingLeft() + mBatteryStroke + mPowerWidth * mPower / 100f;
         invalidate();
